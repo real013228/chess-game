@@ -30,3 +30,6 @@ func (p Pawn) GetName() string {
 func (p Pawn) GetPieceMoves() map[helper.CoordinatesShift]struct{} {
 	return nil
 }
+func (p Pawn) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
+	return true
+}

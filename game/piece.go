@@ -10,6 +10,7 @@ type Piece interface {
 	GetCoordinates() helper.Coordinates
 	SetCoordinates(newCoordinates helper.Coordinates)
 	GetPieceMoves() map[helper.CoordinatesShift]struct{}
+	IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool
 }
 
 func NewPiece(piece byte, coordinates helper.Coordinates) Piece {
@@ -47,7 +48,7 @@ func GetAvailableMoveSquares(p Piece, b Board) map[helper.Coordinates]struct{} {
 	for shift := range p.GetPieceMoves() {
 		if p.GetCoordinates().ValidShift(shift) {
 			nCoordinates := p.GetCoordinates().Shift(shift)
-			if IsSquareAvailable(p, nCoordinates, b) {
+			if IsSquareAvailableForMove(p, nCoordinates, b) {
 				res[nCoordinates] = struct{}{}
 			}
 		}

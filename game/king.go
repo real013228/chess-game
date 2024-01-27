@@ -30,3 +30,6 @@ func newKing(color helper.Color, coordinates helper.Coordinates) *King {
 func (k King) GetName() string {
 	return "king"
 }
+func (k King) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
+	return true
+}

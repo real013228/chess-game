@@ -30,6 +30,14 @@ func (c Coordinates) Shift(shift CoordinatesShift) Coordinates {
 	return *NewCoordinates(c.file+File(shift.fileShift), c.rank+shift.rankShift)
 }
 
+func (c Coordinates) GetFile() File {
+	return c.file
+}
+
+func (c Coordinates) GetRank() int {
+	return c.rank
+}
+
 func (c Coordinates) ValidShift(shift CoordinatesShift) bool {
 	nFile := int(c.file) + shift.fileShift
 	nRank := c.rank + shift.rankShift

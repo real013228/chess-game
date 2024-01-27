@@ -39,3 +39,7 @@ func newKnight(color helper.Color, coordinates helper.Coordinates) *Knight {
 func (k Knight) GetName() string {
 	return "knight"
 }
+
+func (k Knight) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
+	return IsSquareAvailable(&k, coordinates, board)
+}

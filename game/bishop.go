@@ -38,3 +38,18 @@ func newBishop(color helper.Color, coordinates helper.Coordinates) *Bishop {
 func (b Bishop) GetName() string {
 	return "bishop"
 }
+
+func (b Bishop) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
+	res := IsSquareAvailable(&b, coordinates, board)
+	if res {
+		coordinatesBetween := GetDiagonalCoordinatesBetween(b.GetCoordinates(), coordinates)
+		for _, c := range coordinatesBetween {
+			if !board.IsSquareEmpty(c) {
+				return false
+			}
+		}
+		return true
+	}
+
+	return res
+}
