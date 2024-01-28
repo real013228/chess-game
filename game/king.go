@@ -53,9 +53,7 @@ func (k King) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
 	for shift := range k.GetPieceMoves() {
 		if k.GetCoordinates().ValidShift(shift) {
 			nCoordinates := k.GetCoordinates().Shift(shift)
-			if IsSquareAvailable(&k, nCoordinates, board) {
-				res[nCoordinates] = struct{}{}
-			}
+			res[nCoordinates] = struct{}{}
 		}
 	}
 

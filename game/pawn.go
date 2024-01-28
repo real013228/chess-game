@@ -51,10 +51,20 @@ func (p Pawn) GetPieceMoves() map[helper.CoordinatesShift]struct{} {
 }
 func (p Pawn) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
 	if p.coordinates.GetFile() == coordinates.GetFile() {
+		if abs(coordinates.GetRank()-p.coordinates.GetRank()) == 2 {
+			sq := GetVerticalCoordinatesBetween(p.coordinates, coordinates)
+			return board.IsSquareEmpty(sq[0]) && board.IsSquareEmpty(coordinates)
+		}
 		return board.IsSquareEmpty(coordinates)
 	}
 
 	return !board.IsSquareEmpty(coordinates) && board.GetPiece(coordinates).GetColor() != p.color
+}
+func abs(a int) int {
+	if a > 0 {
+		return a
+	}
+	return -a
 }
 
 func (p Pawn) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
