@@ -28,8 +28,51 @@ func (p Pawn) GetName() string {
 }
 
 func (p Pawn) GetPieceMoves() map[helper.CoordinatesShift]struct{} {
-	return nil
+	res := make(map[helper.CoordinatesShift]struct{})
+	if p.color == helper.WHITE {
+		res[*helper.NewCoordinatesShift(0, 1)] = struct{}{}
+		if p.coordinates.GetRank() == 2 {
+			res[*helper.NewCoordinatesShift(0, 2)] = struct{}{}
+		}
+
+		res[*helper.NewCoordinatesShift(1, 1)] = struct{}{}
+		res[*helper.NewCoordinatesShift(-1, 1)] = struct{}{}
+	} else {
+		res[*helper.NewCoordinatesShift(0, -1)] = struct{}{}
+		if p.coordinates.GetRank() == 7 {
+			res[*helper.NewCoordinatesShift(0, -2)] = struct{}{}
+		}
+
+		res[*helper.NewCoordinatesShift(1, -1)] = struct{}{}
+		res[*helper.NewCoordinatesShift(-1, -1)] = struct{}{}
+	}
+
+	return res
 }
 func (p Pawn) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
-	return true
+	if p.coordinates.GetFile() == coordinates.GetFile() {
+		return board.IsSquareEmpty(coordinates)
+	}
+
+	return !board.IsSquareEmpty(coordinates) && board.GetPiece(coordinates).GetColor() != p.color
+}
+
+func (p Pawn) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	res := make(map[helper.Coordinates]struct{})
+	if p.color == helper.WHITE {
+		if p.GetCoordinates().ValidShift(*helper.NewCoordinatesShift(-1, 1)) {
+			res[*helper.NewCoordinates(p.coordinates.GetFile()-1, p.coordinates.GetRank()+1)] = struct{}{}
+		}
+		if p.GetCoordinates().ValidShift(*helper.NewCoordinatesShift(1, 1)) {
+			res[*helper.NewCoordinates(p.coordinates.GetFile()+1, p.coordinates.GetRank()+1)] = struct{}{}
+		}
+	} else {
+		if p.GetCoordinates().ValidShift(*helper.NewCoordinatesShift(-1, -1)) {
+			res[*helper.NewCoordinates(p.coordinates.GetFile()-1, p.coordinates.GetRank()-1)] = struct{}{}
+		}
+		if p.GetCoordinates().ValidShift(*helper.NewCoordinatesShift(1, -1)) {
+			res[*helper.NewCoordinates(p.coordinates.GetFile()+1, p.coordinates.GetRank()-1)] = struct{}{}
+		}
+	}
+	return res
 }

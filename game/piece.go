@@ -11,6 +11,7 @@ type Piece interface {
 	SetCoordinates(newCoordinates helper.Coordinates)
 	GetPieceMoves() map[helper.CoordinatesShift]struct{}
 	IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool
+	GetAttackedSquares(b Board) map[helper.Coordinates]struct{}
 }
 
 func NewPiece(piece byte, coordinates helper.Coordinates) Piece {

@@ -11,7 +11,7 @@ type BoardFactory struct {
 }
 
 func (bf BoardFactory) FromFEN(fen string) *Board {
-	board := Board{}
+	board := newBoard(fen)
 	board.Init()
 	parts := strings.Split(fen, " ")
 	piecePositions := parts[0]
@@ -32,5 +32,14 @@ func (bf BoardFactory) FromFEN(fen string) *Board {
 			}
 		}
 	}
-	return &board
+	return board
+}
+
+func (bf BoardFactory) Copy(board Board) *Board {
+	clone := bf.FromFEN(board.startingFen)
+	for _, m := range board.moves {
+		clone.MovePiece(m)
+	}
+
+	return clone
 }

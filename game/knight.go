@@ -43,3 +43,6 @@ func (k Knight) GetName() string {
 func (k Knight) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
 	return IsSquareAvailable(&k, coordinates, board)
 }
+func (k Knight) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	return GetAvailableMoveSquares(&k, board)
+}

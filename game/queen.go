@@ -60,3 +60,7 @@ func (q Queen) IsSquareAvailableForMove(coordinates helper.Coordinates, board Bo
 	}
 	return res
 }
+
+func (q Queen) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	return GetAvailableMoveSquares(&q, board)
+}

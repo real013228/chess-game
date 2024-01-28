@@ -53,3 +53,7 @@ func (b Bishop) IsSquareAvailableForMove(coordinates helper.Coordinates, board B
 
 	return res
 }
+
+func (b Bishop) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	return GetAvailableMoveSquares(&b, board)
+}

@@ -56,3 +56,7 @@ func (r Rook) IsSquareAvailableForMove(coordinates helper.Coordinates, board Boa
 	}
 	return res
 }
+
+func (r Rook) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	return GetAvailableMoveSquares(&r, board)
+}

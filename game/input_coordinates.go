@@ -64,3 +64,39 @@ func (ic InputCoordinates) inputAvailableSquare(coordinates map[helper.Coordinat
 		return input
 	}
 }
+
+func (ic InputCoordinates) InputMove(board Board, color helper.Color, renderer Renderer) helper.Move {
+	for {
+		from := ic.inputCoordinates(color, board)
+		piece := board.GetPiece(from)
+		availableMoveSquares := GetAvailableMoveSquares(piece, board)
+
+		renderer.Render(board, piece)
+		to := ic.inputAvailableSquare(availableMoveSquares)
+
+		//check after move(from, to)
+		//if king is under attack -> re input
+		move := *helper.NewMove(from, to)
+		if ic.kingIsUnderAttack(board, color, move) {
+			renderer.RenderNoPiece(board)
+			fmt.Println("Your king is under attack!")
+			continue
+		}
+		return move
+	}
+}
+
+func (ic InputCoordinates) kingIsUnderAttack(b Board, c helper.Color, m helper.Move) bool {
+	bf := BoardFactory{}
+	clone := bf.Copy(b)
+	clone.MovePiece(m)
+	var king *King
+	pieces := clone.GetPiecesByColor(c)
+	for _, piece := range pieces {
+		if val, ok := piece.(*King); ok {
+			king = val
+		}
+	}
+
+	return clone.IsSquareAttacked(king.GetCoordinates(), c.OppositeColor())
+}

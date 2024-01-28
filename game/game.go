@@ -16,19 +16,13 @@ func (g *Game) GameLoop() {
 	for {
 		g.renderer.RenderNoPiece(g.board)
 		ic := InputCoordinates{}
-		var from helper.Coordinates
+		var move helper.Move
 		if isWhiteToMove {
-			from = ic.inputCoordinates(helper.WHITE, g.board)
+			move = ic.InputMove(g.board, helper.WHITE, g.renderer)
 		} else {
-			from = ic.inputCoordinates(helper.BLACK, g.board)
+			move = ic.InputMove(g.board, helper.BLACK, g.renderer)
 		}
-
-		piece := g.board.GetPiece(from)
-		availableMoveSquares := GetAvailableMoveSquares(piece, g.board)
-
-		g.renderer.Render(g.board, piece)
-		to := ic.inputAvailableSquare(availableMoveSquares)
-		g.board.MovePiece(from, to)
+		g.board.MovePiece(move)
 		//input
 		//move
 		//pass move

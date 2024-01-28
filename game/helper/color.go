@@ -2,18 +2,17 @@ package helper
 
 type Color string
 
+func (c Color) OppositeColor() Color {
+	if c == WHITE {
+		return BLACK
+	}
+	return WHITE
+}
+
 const (
 	WHITE Color = "white"
 	BLACK Color = "black"
 )
-
-// const (
-// 	ANSI_RESET             = "\u001B[0m"
-// 	ANSI_WHITE_PIECE_COLOR = "\u001B[97m"
-// 	ANSI_BLACK_PIECE_COLOR = "\u001B[38;2;139;69;19;48;5;233m"
-// 	ANSI_WHITE_BG_COLOR    = "\u001B[47m"
-// 	ANSI_BLACK_BG_COLOR    = "\u001B[0;100m"
-// )
 
 const (
 	ANSI_RESET             = "\u001B[0m"

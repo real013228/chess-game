@@ -20,7 +20,16 @@ func (k *King) SetCoordinates(newCoordinates helper.Coordinates) {
 }
 
 func (k King) GetPieceMoves() map[helper.CoordinatesShift]struct{} {
-	return nil
+	res := make(map[helper.CoordinatesShift]struct{})
+	for i := -1; i <= 1; i++ {
+		for j := -1; j <= 1; j++ {
+			if i == 0 && j == 0 {
+				continue
+			}
+			res[*helper.NewCoordinatesShift(i, j)] = struct{}{}
+		}
+	}
+	return res
 }
 
 func newKing(color helper.Color, coordinates helper.Coordinates) *King {
@@ -31,5 +40,24 @@ func (k King) GetName() string {
 	return "king"
 }
 func (k King) IsSquareAvailableForMove(coordinates helper.Coordinates, board Board) bool {
-	return true
+	res := IsSquareAvailable(&k, coordinates, board)
+	if res {
+		return !board.IsSquareAttacked(coordinates, k.color.OppositeColor())
+	}
+
+	return res
+}
+
+func (k King) GetAttackedSquares(board Board) map[helper.Coordinates]struct{} {
+	res := make(map[helper.Coordinates]struct{})
+	for shift := range k.GetPieceMoves() {
+		if k.GetCoordinates().ValidShift(shift) {
+			nCoordinates := k.GetCoordinates().Shift(shift)
+			if IsSquareAvailable(&k, nCoordinates, board) {
+				res[nCoordinates] = struct{}{}
+			}
+		}
+	}
+
+	return res
 }
